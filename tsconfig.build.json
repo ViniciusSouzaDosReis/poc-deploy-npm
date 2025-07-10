@@ -1,0 +1,19 @@
+// tsconfig.build.json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "dist/types",
+    "composite": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["lib"],
+  "exclude": ["dist", "node_modules"]
+}
