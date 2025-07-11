@@ -1,14 +1,15 @@
-name: Deploy Package
-
+name: Deploy-Workflow
 on:
   push:
     branches: [main]
 
 jobs:
-  release:
+  deploy-npm:
+    name: 'Deploy NPM'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout 
+        uses: actions/checkout@v4
 
       - name: Setup Node.js v20
         uses: actions/setup-node@v4
@@ -16,16 +17,52 @@ jobs:
           node-version: 20.x
           cache: 'npm'
 
-      - run: npm ci
+      - name: Install Dependencies
+        run: npm ci
       
-      - run: npm run build
+      - name: Build
+        run: npm run build
 
-      - run: npm audit signatures
+      - name: Audit
+        run: npm audit signatures
 
-      - name: Publish
+      - name: Publish NPM
         uses: changesets/action@v1
         with:
           publish: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  chromatic:
+    name: 'Deploy Chromatic'
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout 
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Build Storybook
+        run: npm run chromatic-build
+
+      - name: Publish to Chromatic
+        uses: chromaui/action@latest
+        with:
+          exitOnceUploaded: true
+          onlyChanged: true
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
