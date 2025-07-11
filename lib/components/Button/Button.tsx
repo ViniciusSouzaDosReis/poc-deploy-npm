@@ -13,7 +13,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 color={color}
                 size={size}
                 sx={{
-                  backgroundColor: 'yellow'
+                  backgroundColor: 'blue'
                 }}
                 className="ApButton"
                 {...props}

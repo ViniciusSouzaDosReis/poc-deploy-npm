@@ -1,5 +1,11 @@
 # poc-deploy-npm
 
+## 0.0.10
+
+### Patch Changes
+
+- change collor
+
 ## 0.0.9
 
 ### Patch Changes
