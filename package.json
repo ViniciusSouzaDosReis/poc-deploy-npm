@@ -29,7 +29,8 @@
     "release": "changeset publish",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic-build": "storybook build --stats-json"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
